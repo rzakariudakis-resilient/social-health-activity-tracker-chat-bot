@@ -31,18 +31,18 @@ class WebhookController {
         val botRoom = botRoomService.getBotRoom()
         hangoutsApiClient.sendChat(botRoom.roomId, "@all EventDetail Starting in ${Date(startDateTimeMillis)}")
         val membersCount = hangoutsApiClient.listChatMembers(botRoom.roomId)
-        botRoom?.totalRoomMembers = membersCount
+        botRoom.totalRoomMembers = membersCount
         return ResponseEntity.ok(botRoom)
     }
     @PostMapping
     @RequestMapping("event-start")
     fun notifyEventStart(@RequestBody eventDetail: EventDetail){
-        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "@all Please join us for ${eventDetail.name} starting at ${Date(eventDetail.startDateTimeMillis)}. Click this link ${eventDetail.instructions} for instructions. This needs to be completed by ${Date(eventDetail.endDateTimeMillis)}")
+        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "@all Please join us for ${eventDetail.activity.name} starting at ${Date(eventDetail.startDateTimeMillis)}. Click this link ${eventDetail.activity.instructionsUrl} for instructions. This needs to be completed by ${Date(eventDetail.endDateTimeMillis)}")
     }
     @PostMapping
     @RequestMapping("event-end")
     fun notifyEventEnd(@RequestBody eventDetail: EventDetail){
-        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "@all ${eventDetail.name} is finished! Well done to all who took part!")
+        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "@all ${eventDetail.activity.name} is finished! Well done to all who took part!")
 
     }
     @PostMapping

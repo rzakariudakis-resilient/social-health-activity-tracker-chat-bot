@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class EventDetail(
-        @JsonProperty("name")
-        var name: String = "",
-        @JsonProperty("instructions")
-        var instructions: String = "",
+        @JsonProperty("id")
+        var eventId: String = "",
+        @JsonProperty("activity")
+        var activity: Activity = Activity(),
         @JsonProperty("start")
         var startDateTimeMillis: Long = 0,
         @JsonProperty("end")
         var endDateTimeMillis: Long = 0
 )
+
+
