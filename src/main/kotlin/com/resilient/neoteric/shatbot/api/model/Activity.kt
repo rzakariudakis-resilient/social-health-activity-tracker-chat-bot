@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Activity (
+        @JsonProperty("id")
         var activityId: String = "",
         @JsonProperty("url")
         var instructionsUrl: String = "",
