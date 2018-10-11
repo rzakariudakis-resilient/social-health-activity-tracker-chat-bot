@@ -13,8 +13,9 @@ class BotRoomService {
     @Autowired
     lateinit var restTemplate: RestTemplate
 
-    fun getBotRoom(): String {
+    fun getBotRoom(): BotRoom {
         val responseEntity: ResponseEntity<BotRoom> = restTemplate.getForEntity("https://bkswz8idxa.execute-api.eu-west-1.amazonaws.com/prod/room", String::class)
-        return responseEntity.body?.roomId ?: "AAAAQH51DJA"
+        val roomId = responseEntity.body?.roomId ?: "AAAAQH51DJA"
+        return BotRoom(roomId=roomId)
     }
 }
