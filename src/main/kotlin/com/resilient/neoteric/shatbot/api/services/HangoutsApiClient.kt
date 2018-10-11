@@ -18,21 +18,19 @@ class HangoutsApiClient: HangoutsApi {
 
     fun sendChat(spaceId: String, messageText: String){
         val hangoutsChat = HangoutsChat.Builder(GoogleAuthService.httpTransport, GoogleAuthService.jsonFactory, GoogleAuthService.authorize()).setApplicationName(APPLICATION_NAME).build()
-        hangoutsChat.spaces().messages().create("spaces/$spaceId", Message().setText(messageText)).execute()
+        hangoutsChat.spaces().messages().create(buildSpaceName(spaceId), Message().setText(messageText)).execute()
         log.debug("sent message $messageText")
     }
 
     fun listChatMembers(spaceId: String): Int {
         val hangoutsChat = HangoutsChat.Builder(GoogleAuthService.httpTransport, GoogleAuthService.jsonFactory, GoogleAuthService.authorize()).setApplicationName(APPLICATION_NAME).build()
-        val listSpacesResponse = hangoutsChat.spaces().members().list("spaces/$spaceId").execute()
-        log.debug("Total members in space spaces/${spaceId}=${listSpacesResponse.size}")
+        val listSpacesResponse = hangoutsChat.spaces().members().list(buildSpaceName(spaceId)).execute()
+        log.debug("Total members in space ${buildSpaceName(spaceId)}=${listSpacesResponse.size}")
         return listSpacesResponse.size
     }
 
-    fun sampleChat(){
-        val hangoutsChat = HangoutsChat.Builder(GoogleAuthService.httpTransport, GoogleAuthService.jsonFactory, GoogleAuthService.authorize()).setApplicationName(APPLICATION_NAME).build()
-        hangoutsChat.spaces().messages().create("spaces/AAAAQH51DJA", Message().setText("Sample text message")).execute()
-        log.debug("sent test")
+    internal fun buildSpaceName(roomId: String): String{
+        return roomId
     }
 
 }

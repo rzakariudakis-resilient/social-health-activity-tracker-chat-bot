@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class BotRoom(
-        @JsonProperty(value="id")
+        @JsonProperty(value="roomId")
         var roomId: String = "",
         @JsonProperty(value="totalMembers")
         var totalRoomMembers: Int = 0

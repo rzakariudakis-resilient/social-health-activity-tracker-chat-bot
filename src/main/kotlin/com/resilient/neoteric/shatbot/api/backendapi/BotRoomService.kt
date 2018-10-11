@@ -14,7 +14,7 @@ class BotRoomService {
     lateinit var restTemplate: RestTemplate
 
     fun getBotRoom(): BotRoom {
-        val responseEntity: ResponseEntity<BotRoom> = restTemplate.getForEntity("https://bkswz8idxa.execute-api.eu-west-1.amazonaws.com/prod/room", String::class)
+        val responseEntity: ResponseEntity<BotRoom> = restTemplate.getForEntity("https://bkswz8idxa.execute-api.eu-west-1.amazonaws.com/prod/room", BotRoom::class)
         val roomId = responseEntity.body?.roomId ?: "AAAAQH51DJA"
         return BotRoom(roomId=roomId)
     }
