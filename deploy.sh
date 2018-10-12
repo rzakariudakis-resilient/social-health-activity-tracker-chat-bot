@@ -1,5 +1,7 @@
 #!/bin/bash
-mvn clean package
+mvn clean install
+
+docker rmi shat-bot-api
 
 docker build -t shat-bot-api .
 
