@@ -25,8 +25,8 @@ class HangoutsApiClient: HangoutsApi {
     fun listChatMembers(spaceId: String): Int {
         val hangoutsChat = HangoutsChat.Builder(GoogleAuthService.httpTransport, GoogleAuthService.jsonFactory, GoogleAuthService.authorize()).setApplicationName(APPLICATION_NAME).build()
         val listSpacesResponse = hangoutsChat.spaces().members().list(buildSpaceName(spaceId)).execute()
-        log.debug("Total members in space ${buildSpaceName(spaceId)}=${listSpacesResponse.size}")
-        return listSpacesResponse.size
+        log.debug("Total members in space ${buildSpaceName(spaceId)}=${listSpacesResponse.memberships.size}")
+        return listSpacesResponse.memberships.size
     }
 
     internal fun buildSpaceName(roomId: String): String{
