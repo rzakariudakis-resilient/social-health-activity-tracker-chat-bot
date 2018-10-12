@@ -28,8 +28,6 @@ class WebhookController {
     lateinit var botRoomService: BotRoomService
     @Autowired
     lateinit var goalService: GoalService
-    @Autowired
-    lateinit var restTemplate: RestTemplate
 
     @Autowired
     lateinit var hangoutsApiClient: HangoutsApiClient
@@ -38,7 +36,7 @@ class WebhookController {
     @RequestMapping("pre-event-alert")
     fun notifyUpcomingEvent(@RequestParam("start") startDateTimeMillis: Long): ResponseEntity<BotRoom>{
         val botRoom = botRoomService.getBotRoom()
-        hangoutsApiClient.sendChat(botRoom.roomId, "@all EventDetail Starting in ${Date(startDateTimeMillis)}")
+        hangoutsApiClient.sendChat(botRoom.roomId, "Event Coming Soon", "Details to follow...", "EventDetail Starting in <b>${Date(startDateTimeMillis)}</b>")
         val membersCount = hangoutsApiClient.listChatMembers(botRoom.roomId)
         botRoom.totalRoomMembers = membersCount
         log.info("Got room member count")
@@ -48,7 +46,7 @@ class WebhookController {
     @RequestMapping("event-start")
     fun notifyEventStart(@RequestBody eventDetail: EventDetail): ResponseEntity<BotRoom> {
         val botRoom = botRoomService.getBotRoom()
-        hangoutsApiClient.sendChat(botRoom.roomId, "@all Please join us for ${eventDetail.activity.name} starting at ${Date(eventDetail.startDateTimeMillis)}. Click this link ${eventDetail.activity.instructionsUrl} for instructions. This needs to be completed by ${Date(eventDetail.endDateTimeMillis)}")
+        hangoutsApiClient.sendChat(botRoom.roomId, "Event Started", "Event Detail", "Please join us for <b>${eventDetail.activity.name}</b> starting at ${Date(eventDetail.startDateTimeMillis)}. Click <a href=\"${eventDetail.activity.instructionsUrl}\">here</a> for instructions. This needs to be completed by <b>${Date(eventDetail.endDateTimeMillis)}</b>")
         val membersCount = hangoutsApiClient.listChatMembers(botRoom.roomId)
         botRoom.totalRoomMembers = membersCount
         log.info("Got room member count")
@@ -60,17 +58,17 @@ class WebhookController {
         val goal = goalService.getCurrentGoalProgress()
         val goalProgressPercent = goal.percentile.multiply(BigDecimal.valueOf(100)).round(MathContext(0, RoundingMode.HALF_UP)).toBigInteger().intValueExact()
         val goalMessage = if (goalProgressPercent > 0){
-            "You have achieved $goalProgressPercent% of your current goal!"
+            "You have achieved <b>$goalProgressPercent%</b> of your current goal!"
         } else {
             ""
         }
-        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "@all ${eventDetail.activity.name} is finished! Well done to all who took part! $goalMessage")
+        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "Event Finished", "Congratulations", "<b>${eventDetail.activity.name}</b> is finished! Well done to all who took part! $goalMessage")
 
 
     }
     @PostMapping
     @RequestMapping("goal-achieved")
     fun notifyGoalAchieved(@RequestBody goalDetail: GoalDetail){
-        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "Contratulations @all you have completed another goal!")
+        hangoutsApiClient.sendChat(botRoomService.getBotRoom().roomId, "Goal Achieved!", "Amazing", "<b>Contratulations!</b> you have completed another goal!")
     }
 }
