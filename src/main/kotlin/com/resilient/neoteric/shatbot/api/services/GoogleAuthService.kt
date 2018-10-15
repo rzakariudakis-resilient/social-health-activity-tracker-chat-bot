@@ -34,7 +34,7 @@ class GoogleAuthService {
         private fun buildCredential(): GoogleCredential? {
 
             val file = File.createTempFile("temp.p12", "UTF-8")
-            val fileInputStream = CredentialStore::class.java.classLoader.getResourceAsStream("key.p12")
+            val fileInputStream = CredentialStore::class.java.classLoader.getResourceAsStream("key.p12")//notasecret
             val outputStream = FileOutputStream(file)
             IOUtils.copy(fileInputStream, outputStream)
             outputStream.close()
@@ -42,7 +42,7 @@ class GoogleAuthService {
             return GoogleCredential.Builder()
                     .setTransport(httpTransport)
                     .setJsonFactory(jsonFactory)
-                    .setServiceAccountId("shat-bot@appspot.gserviceaccount.com")
+                    .setServiceAccountId("shat-bot-v2@appspot.gserviceaccount.com")
                     .setServiceAccountScopes(listOf(serviceAccountScope))
                     .setServiceAccountPrivateKeyFromP12File(file)
                     .build()
