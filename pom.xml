@@ -15,9 +15,9 @@
     </parent>
 
     <scm>
-        <connection>scm:git:https://github.com/resilientplc/shat-bot-restapi.git</connection>
-        <developerConnection>scm:git:git@github.com:resilientplc/shat-bot-restapi.git</developerConnection>
-        <url>https://github.com/resilientplc/shat-bot-restapi.git</url>
+        <connection>scm:git:https://github.com/resilientplc/shat-bot-api.git</connection>
+        <developerConnection>scm:git:git@github.com:resilientplc/shat-bot-api.git</developerConnection>
+        <url>https://github.com/resilientplc/shat-bot-api.git</url>
         <tag>HEAD</tag>
 	</scm>
 
